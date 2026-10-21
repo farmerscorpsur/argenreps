@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>ARGENREPS</title>
+  <style>
+    :root {
+      --bg: #0a0e18;
+      --card: #111828;
+      --line: #1f2a40;
+      --blue: #2f6fed;
+      --blue2: #1a4fd6;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: #eef1f8;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+      min-height: 100%
+    }
+
+    body {
+      background-image: radial-gradient(1px 1px at 20% 30%, #ffffff55 1px, transparent 0),
+        radial-gradient(1px 1px at 70% 60%, #ffffff33 1px, transparent 0),
+        radial-gradient(1px 1px at 40% 80%, #ffffff44 1px, transparent 0),
+        radial-gradient(1px 1px at 90% 20%, #ffffff33 1px, transparent 0);
+      background-size: 300px 300px;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      padding-top: calc(16px + env(safe-area-inset-top, 0px));
+      position: sticky;
+      top: 0;
+      background: rgba(10, 14, 24, .92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 20;
+      border-bottom: 1px solid var(--line)
+    }
+
+    .logo {
+      font-weight: 800;
+      letter-spacing: .5px;
+      font-size: 18px
+    }
+
+    .logo span {
+      color: var(--blue)
+    }
+
+    .navlinks {
+      display: flex;
+      gap: 18px;
+      font-size: 14px;
+      color: #c7cfe0
+    }
+
+    .discordbtn {
+      background: var(--blue);
+      color: #fff;
+      padding: 9px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap
+    }
+
+    .hero {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 64px 20px 28px;
+      text-align: left
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(90deg, rgba(47, 111, 237, .18), transparent);
+      border: 1px solid rgba(47, 111, 237, .4);
+      color: #9fb2e0;
+      font-size: 11px;
+      letter-spacing: 1px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      margin-bottom: 18px
+    }
+
+    h1 {
+      font-size: clamp(38px, 9vw, 72px);
+      line-height: 1.02;
+      font-weight: 900;
+      margin: 0 0 16px
+    }
+
+    h1 .grey {
+      color: #8b93a7
+    }
+
+    .sub {
+      color: #aab3c6;
+      font-size: 16px;
+      line-height: 1.6;
+      max-width: 620px;
+      margin-bottom: 26px
+    }
+
+    .ctas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 32px
+    }
+
+    .cta {
+      padding: 13px 20px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .cta.primary {
+      background: #fff;
+      color: #0a0e18
+    }
+
+    .cta.secondary {
+      background: var(--blue);
+      color: #fff
+    }
+
+    .cta.tertiary {
+      background: transparent;
+      color: #eef1f8;
+      border: 1px solid var(--line)
+    }
+
+    .toolbar {
+      max-width: 1100px;
+      margin: 0 auto 12px;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px
+    }
+
+    .searchbar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: radial-gradient(120% 120% at 50% 0%, rgba(47, 111, 237, .12), transparent), var(--card);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 10px 18px;
+      box-shadow: 0 40px 60px -40px rgba(47, 111, 237, .4)
+    }
+
+    .searchbar input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 15px;
+      outline: none
+    }
+
+    .searchbar input::placeholder {
+      color: #6f7aa3
+    }
+
+    .filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center
+    }
+
+    .filters-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #6f7aa3;
+      margin-right: 6px
+    }
+
+    .filters button {
+      background: transparent;
+      border: 1px solid transparent;
+      color: #c7cfe0;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all .15s ease
+    }
+
+    .filters button:hover {
+      color: #fff
+    }
+
+    .filters button.active {
+      background: rgba(47, 111, 237, .25);
+      color: #fff;
+      border-color: rgba(47, 111, 237, .8)
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 10px 20px 80px
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px
+    }
+
+    .card {
+      position: relative;
+      background: radial-gradient(160% 160% at 50% 0%, rgba(47, 111, 237, .12), transparent), var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(47, 111, 237, .9);
+      box-shadow: 0 40px 70px -50px rgba(47, 111, 237, .9)
+    }
+
+    .card-media {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4/5;
+      overflow: hidden;
+      background: radial-gradient(circle at 50% 30%, rgba(255, 255, 255, .04), transparent), #0c1220
+    }
+
+    .card-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .4s ease
+    }
+
+    .card:hover .card-media img {
+      transform: scale(1.04)
+    }
+
+    .card-body {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 16px 18px 18px
+    }
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #7c8bb0
+    }
+
+    .card-name {
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+      min-height: 42px
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 6px
+    }
+
+    .card-price {
+      font-weight: 700;
+      font-size: 14px
+    }
+
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 16px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--blue), var(--blue2));
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700
+    }
+
+    .card-link.disabled {
+      background: transparent;
+      border: 1px solid var(--line);
+      color: #6f7aa3;
+      pointer-events: none
+    }
+
+    .empty {
+      text-align: center;
+      color: #7c8bb0;
+      padding: 70px 20px
+    }
+
+    footer {
+      text-align: center;
+      color: #5a6480;
+      font-size: 12px;
+      padding: 30px 20px 40px;
+      border-top: 1px solid var(--line)
+    }
+
+    footer a {
+      color: #8fa5e0
+    }
+
+    @media (max-width: 720px) {
+      .navlinks {
+        display: none
+      }
+
+      .grid {
+        grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+        gap: 12px
+      }
+
+      .card-body {
+        padding: 14px
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <div class="logo">ARGEN<span>REPS</span></div>
+    <div class="navlinks">
+      <a href="#catalogo">Productos</a>
+      <a href="#guia">Guía</a>
+    </div>
+    <a class="discordbtn" href="https://tr.ee/Mwmx7WlMnO" target="_blank" rel="noopener">Unite al Discord</a>
+  </nav>
+
+  <header class="hero">
+    <div class="badge">● Catálogo comunitario</div>
+    <h1>LAS MEJORES REPS<br><span class="grey">EN UN SOLO LUGAR</span></h1>
+    <p class="sub">Buscá, filtrá por marca y accedé directo al link para comprar con Kakobuy. Todo curado por la comunidad ARGENREPS.</p>
+    <div class="ctas">
+      <a class="cta primary" href="https://ikako.vip/r/argenreps" target="_blank" rel="noopener">Registrate en Kakobuy</a>
+      <a class="cta secondary" href="https://tr.ee/Mwmx7WlMnO" target="_blank" rel="noopener">Unite al Discord</a>
+      <a class="cta tertiary" href="#catalogo">Ver catálogo</a>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <div class="searchbar">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="8.25" cy="8.25" r="5.25" stroke="#6f7aa3" stroke-width="1.6" />
+        <path d="M12.375 12.375L15.75 15.75" stroke="#6f7aa3" stroke-width="1.6" stroke-linecap="round" />
+      </svg>
+      <input id="searchInput" placeholder="Buscar por prenda, marca..." autocomplete="off" spellcheck="false">
+    </div>
+    <div class="filters" id="filters">
+      <span class="filters-label">Marcas</span>
+      <button class="active" data-filter="all">Todos</button>
+    </div>
+  </div>
+
+  <main id="catalogo">
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty" style="display:none">No encontramos resultados con ese filtro.</div>
+  </main>
+
+  <footer>
+    © 2026 ARGENREPS · <a href="https://tr.ee/Mwmx7WlMnO" target="_blank" rel="noopener">Discord</a>
+  </footer>
+
+  <script>
+    const PLACEHOLDER = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22750%22 viewBox=%220 0 600 750%22%3E%3Crect width=%22600%22 height=%22750%22 fill=%22%230c1220%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 fill=%22%236f7aa3%22 font-family=%22-apple-system,Segoe UI,Arial%22 font-size=%2222%22 text-anchor=%22middle%22%3EARGENREPS%3C/text%3E%3C/svg%3E';
+
+    const grid = document.getElementById('grid');
+    const searchInput = document.getElementById('searchInput');
+    const filters = document.getElementById('filters');
+    const empty = document.getElementById('empty');
+
+    let products = [];
+    let activeFilter = 'all';
+    let searchTerm = '';
+
+    async function load() {
+      try {
+        const res = await fetch('productos.json', { cache: 'no-store' });
+        if (!res.ok) throw new Error('No se pudo cargar productos.json');
+        products = await res.json();
+        buildFilters();
+        render();
+      } catch (err) {
+        console.error(err);
+        empty.textContent = 'No se pudo cargar productos.json. Subilo junto a index.html.';
+        empty.style.display = 'block';
+      }
+    }
+
+    function buildFilters() {
+      const brands = Array.from(new Set(products.map(p => p.brand).filter(Boolean))).sort((a, b) => a.localeCompare(b));
+      brands.forEach(brand => {
+        const btn = document.createElement('button');
+        btn.dataset.filter = brand;
+        btn.textContent = brand;
+        btn.addEventListener('click', () => {
+          filters.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          activeFilter = brand;
+          render();
+        });
+        filters.appendChild(btn);
+      });
+
+      filters.querySelector('button[data-filter="all"]').addEventListener('click', () => {
+        filters.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+        filters.querySelector('button[data-filter="all"]').classList.add('active');
+        activeFilter = 'all';
+        render();
+      });
+    }
+
+    function render() {
+      grid.innerHTML = '';
+      const term = searchTerm.toLowerCase();
+      const list = products.filter(p => {
+        const matchBrand = activeFilter === 'all' || p.brand === activeFilter;
+        if (!matchBrand) return false;
+        if (!term) return true;
+        const haystack = `${p.name || ''} ${p.brand || ''}`.toLowerCase();
+        return haystack.includes(term);
+      });
+
+      if (list.length === 0) {
+        empty.style.display = 'block';
+        return;
+      }
+
+      empty.style.display = 'none';
+
+      list.forEach(p => {
+        const card = document.createElement('article');
+        card.className = 'card';
+
+        const media = document.createElement('div');
+        media.className = 'card-media';
+        const img = document.createElement('img');
+        img.loading = 'lazy';
+        img.alt = p.name || 'Producto ARGENREPS';
+        img.src = p.img && p.img.startsWith('http') ? p.img : PLACEHOLDER;
+        img.onerror = () => { img.src = PLACEHOLDER; };
+        media.appendChild(img);
+
+        const body = document.createElement('div');
+        body.className = 'card-body';
+
+        const meta = document.createElement('div');
+        meta.className = 'card-meta';
+        const brand = document.createElement('span');
+        brand.textContent = p.brand || '';
+        meta.appendChild(brand);
+
+        const name = document.createElement('div');
+        name.className = 'card-name';
+        name.textContent = p.name || '';
+
+        const footer = document.createElement('div');
+        footer.className = 'card-footer';
+
+        const price = document.createElement('span');
+        price.className = 'card-price';
+        price.textContent = p.price ? p.price : '';
+
+        const link = document.createElement('a');
+        link.className = 'card-link';
+        if (p.link && p.link.startsWith('http')) {
+          link.href = p.link;
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+          link.innerHTML = 'VER LINK <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5.25 2.91666H11.0833V8.75M11.0833 2.91666L2.91667 11.0833L11.0833 2.91666Z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        } else {
+          link.classList.add('disabled');
+          link.textContent = 'SIN LINK';
+        }
+
+        footer.appendChild(price);
+        footer.appendChild(link);
+
+        body.appendChild(meta);
+        body.appendChild(name);
+        body.appendChild(footer);
+        card.appendChild(media);
+        card.appendChild(body);
+        grid.appendChild(card);
+      });
+    }
+
+    searchInput.addEventListener('input', (e) => {
+      searchTerm = e.target.value;
+      render();
+    });
+
+    load();
+  </script>
+</body>
+
+</html>
