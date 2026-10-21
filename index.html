@@ -104,10 +104,10 @@ footer a{color:#8fa5e0}
 
 <main id="catalogo">
   <div class="grid" id="grid"></div>
-  <div class="empty" id="empty" style="display:none">Todavía no hay productos cargados. Tocá el + para agregar el primero.</div>
+  <div class="empty" id="empty" style="display:none">No hay productos para mostrar.</div>
 </main>
 
-<button class="fab" id="fabAdd" title="Agregar producto">+</button>
+
 
 <section class="guide" id="vendedores" style="border-top:1px solid var(--line)">
   <h2>VENDEDORES DE CONFIANZA</h2>
@@ -115,7 +115,7 @@ footer a{color:#8fa5e0}
   <div class="filters" id="sellerFilters" style="padding:0 0 14px"></div>
   <div id="sellerList"></div>
   <div class="empty" id="sellerEmpty" style="display:none">Todavía no hay vendedores cargados.</div>
-  <button class="cta tertiary" id="fabAddSeller" style="margin-top:10px">+ Agregar vendedor</button>
+
 </section>
 
 <section class="guide" id="guia">
@@ -199,9 +199,23 @@ const stepImg = {
 
 </script>
 <script>
-let products = JSON.parse(localStorage.getItem('ar_products') || '[]');
+let products = [];
 let activeCat = 'Todos';
 let searchTerm = '';
+
+async function loadProducts(){
+  try {
+    const res = await fetch('productos.json?_=' + Date.now());
+    const data = await res.json();
+    if(Array.isArray(data) && data.length){
+      products = data;
+loadProducts();
+      return;
+    }
+  } catch(e){}
+  products = JSON.parse(localStorage.getItem('ar_products') || '[]');
+  render();
+}
 
 function save(){ localStorage.setItem('ar_products', JSON.stringify(products)); render(); }
 function categories(){ return ['Todos', ...new Set(products.map(p=>p.cat).filter(Boolean))]; }
@@ -234,7 +248,7 @@ function render(){
         <div class="cat">${p.cat||''}</div>
         <div class="name">${p.name}</div>
         <div class="price">${p.price||''}</div>
-        <a class="buy" href="${p.link}" target="_blank" rel="noopener">COMPRAR</a>
+        ${p.link ? `<a class="buy" href="${p.link}" target="_blank" rel="noopener">VER LINK</a>` : '<span class="buy" style="opacity:0.4;cursor:not-allowed">SIN LINK</span>'}
         <button class="del" data-idx="${idx}">eliminar</button>
       </div>`;
     grid.appendChild(card);
@@ -247,7 +261,6 @@ function render(){
 document.getElementById('searchInput').oninput = (e)=>{ searchTerm = e.target.value.toLowerCase(); render(); };
 
 const overlay = document.getElementById('overlay');
-document.getElementById('fabAdd').onclick = ()=> overlay.classList.add('show');
 document.getElementById('cancelBtn').onclick = ()=> overlay.classList.remove('show');
 document.getElementById('saveBtn').onclick = ()=>{
   const name = document.getElementById('fName').value.trim();
@@ -306,7 +319,6 @@ function renderSellers(){
 }
 
 const overlaySeller = document.getElementById('overlaySeller');
-document.getElementById('fabAddSeller').onclick = ()=> overlaySeller.classList.add('show');
 document.getElementById('sCancelBtn').onclick = ()=> overlaySeller.classList.remove('show');
 document.getElementById('sSaveBtn').onclick = ()=>{
   const name = document.getElementById('sName').value.trim();
